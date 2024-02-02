@@ -7,7 +7,46 @@
     <link rel="stylesheet" href="css/lib/bootstrap.min.Pulse.css" />
   </head>
   <body class="bg-dark">
-    <div class="col-10 offset-1 card mt-5 text-black">
+    <div class="d-flex justify-content-center align-items-center vh-100">
+      <div
+        id="divLogin"
+        class="col-10 col-md-6 col-lg-4 card text-black"
+      >
+        <div class="card-header">
+          <h3>Login</h3>
+        </div>
+        <div class="card-body">
+          <form>
+            <label for="txtLoginEmail" class="form-label">Email</label>
+            <input type="email" id="txtLoginEmail" class="form-control" />
+            <label for="txtLoginPassword" class="form-label">Password</label>
+            <input type="password" id="txtLoginPassword" class="form-control" />
+            <button
+              id="btnLogin"
+              class="btn btn-primary col-12 mt-2"
+              type="button"
+            >
+              Login
+            </button>
+            <button
+              id="btnRegister"
+              class="btn btn-secondary col-12 mt-2"
+              type="button"
+            >
+              Register
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div
+      id="divRegistration"
+      style="display: none"
+      class="col-10 col-md-6 col-lg-4 offset-1 offset-md-3 offset-lg-4 card mt-5 text-black"
+    >
+      <div class="card-header">
+        <h3>Registration</h3>
+      </div>
       <div class="card-body">
         <form>
           <label for="txtFirstName" class="form-label">First Name</label>
@@ -37,6 +76,9 @@
           >
             Clear
           </button>
+          <a id="linkReturn" href="" class="col-12 text-center"
+            >Return to Login</a
+          >
         </form>
       </div>
     </div>
@@ -52,6 +94,16 @@
     ></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+      $("#btnRegister").on("click", function () {
+        $("#divLogin").slideUp(function () {
+          $("#divRegistration").slideDown();
+        });
+      });
+      $("#linkRegister").on("click", function () {
+        $("#divRegistration").slideUp(function () {
+          $("#divLogin").slideDown();
+        });
+      });
       $("#btnClear").on("click", function () {
         $("#txtFirstName").val("");
         $("#txtLastName").val("");
