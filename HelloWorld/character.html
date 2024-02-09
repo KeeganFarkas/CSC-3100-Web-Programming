@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Characters</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body class="bg-dark">
+    <div
+      id="divMain"
+      class="col-12 d-flex justify-content-center align-items-center text-black"
+    >
+      <div class="card col-12 col-lg-9">
+        <div class="card-header">
+          <h3 class="text-center">Character Database Search</h3>
+        </div>
+        <div class="card-body">
+          <form>
+            <label class="form-label">Characters</label>
+            <select class="form-control" id="cboCharacters">
+              <option></option>
+            </select>
+            <hr />
+            <button class="btn btn-primary" type="button" id="btnSearch">
+              Find Asset
+            </button>
+          </form>
+          <div id="divDetails"></div>
+        </div>
+      </div>
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+      var arrCharacters;
+      var intSearched = 0;
+
+      $.getJSON(
+        "https://www.swollenhippo.com/getCharactersByAPIKey.php?APIKey=Mickey2022!",
+        function (result) {
+          //console.log(result);
+          arrCharacters = result;
+          // console.log(arrCharacters[0].FirstName);
+
+          arrCharacters.forEach(function (character) {
+            console.log(character.FirstName);
+            let strHTML =
+              '<option value="' +
+              character.CodeName +
+              '">' +
+              character.FirstName +
+              " " +
+              character.LastName +
+              "</option>";
+            $("#cboCharacters").append(strHTML);
+          });
+        }
+      );
+
+      $(document).on("click", "#btnReset", function () {
+        console.log("Reset Clicked");
+        // Reset page, remove new card
+        let strSearched = $(this).attr('data-searched');
+        $('#div' + strSearched).remove();
+        // $("#divDetails").empty();
+      });
+
+      $("#btnSearch").on("click", function () {
+        console.log("CLicked Search");
+        let strCodename = $("#cboCharacters").val();
+        $.getJSON(
+          "https://swollenhippo.com/getProfileDetailsByAPIKey.php?APIKey=Mickey2022!&Codename=" +
+            strCodename,
+          function (result) {
+            console.log(result);
+            let strHTML =
+              '<div id="div' + intSearched + '" class="card"><div class="card-header"><h3>' +
+              result.CodeName +
+              '</h3><div class="card-body"><div class="col-12 d-flex justify-content-center"><img src="' +
+              result.Image +
+              '" class="rounded-circle"></div><h2 class="text-center col-12">' +
+              result.FirstName +
+              '</h2><h3 class="text-center col-12">' +
+              result.LastName +
+              '</h3><button id="btnReset" data-searched="' + intSearched + '" type="button" class="col-12 btn btn-danger">Reset</button></div></div></div>';
+            $("#divDetails").append(strHTML);
+            $("divMain").removeClass("align-items-center").addClass("mt-5");
+            intSearched += 1;
+            if(intSearched > 1){
+              $('#divMain').removeClass('vh-100');
+            }
+          }
+        );
+      });
+    </script>
+  </body>
+</html>
