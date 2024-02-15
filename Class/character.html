@@ -14,7 +14,7 @@
   <body class="bg-dark">
     <div
       id="divMain"
-      class="col-12 d-flex justify-content-center align-items-center text-black"
+      class="col-12 vh-100 d-flex justify-content-center align-items-center text-black"
     >
       <div class="card col-12 col-lg-9">
         <div class="card-header">
@@ -22,12 +22,18 @@
         </div>
         <div class="card-body">
           <form>
+            <h2>Please select a character to review</h2>
+            <div id="divTest">
+              <h2>This is a test</h2>
+              <p id="prTest">This is also a test</p>
+              <h2>This is a final test</h2>
+            </div>
             <label class="form-label">Characters</label>
             <select class="form-control" id="cboCharacters">
               <option></option>
             </select>
             <hr />
-            <button class="btn btn-primary" type="button" id="btnSearch">
+            <button class="btn btn-primary col-12" type="button" id="btnSearch">
               Find Asset
             </button>
           </form>
@@ -55,7 +61,7 @@
         function (result) {
           //console.log(result);
           arrCharacters = result;
-          // console.log(arrCharacters[0].FirstName);
+          //console.log(arrCharacters[0].FirstName);
 
           arrCharacters.forEach(function (character) {
             console.log(character.FirstName);
@@ -73,15 +79,15 @@
       );
 
       $(document).on("click", "#btnReset", function () {
-        console.log("Reset Clicked");
         // Reset page, remove new card
-        let strSearched = $(this).attr('data-searched');
-        $('#div' + strSearched).remove();
-        // $("#divDetails").empty();
+        let strSearched = $(this).attr("data-searched");
+        console.log(strSearched);
+        $(this).parent().parent().remove();
+        // $('#div' + strSearched).remove();
+        //$('#divDetails').empty();
       });
 
       $("#btnSearch").on("click", function () {
-        console.log("CLicked Search");
         let strCodename = $("#cboCharacters").val();
         $.getJSON(
           "https://swollenhippo.com/getProfileDetailsByAPIKey.php?APIKey=Mickey2022!&Codename=" +
@@ -89,20 +95,24 @@
           function (result) {
             console.log(result);
             let strHTML =
-              '<div id="div' + intSearched + '" class="card"><div class="card-header"><h3>' +
+              '<div id="div' +
+              intSearched +
+              '" class="card"><div class="card-header"><h3>' +
               result.CodeName +
-              '</h3><div class="card-body"><div class="col-12 d-flex justify-content-center"><img src="' +
+              '</h3></div><div class="card-body"><div class="col-12 d-flex justify-content-center"><img class="rounded-circle" src="' +
               result.Image +
-              '" class="rounded-circle"></div><h2 class="text-center col-12">' +
+              '"></div><h2 class="text-center col-12">' +
               result.FirstName +
               '</h2><h3 class="text-center col-12">' +
               result.LastName +
-              '</h3><button id="btnReset" data-searched="' + intSearched + '" type="button" class="col-12 btn btn-danger">Reset</button></div></div></div>';
+              '</h3><button id="btnReset" data-searched="' +
+              intSearched +
+              '" type="button" class="col-12 btn btn-danger">Reset</button></div></div>';
             $("#divDetails").append(strHTML);
-            $("divMain").removeClass("align-items-center").addClass("mt-5");
+            $("#divMain").removeClass("align-items-center").addClass("mt-5");
             intSearched += 1;
-            if(intSearched > 1){
-              $('#divMain').removeClass('vh-100');
+            if (intSearched > 1) {
+              $("#divMain").removeClass("vh-100");
             }
           }
         );

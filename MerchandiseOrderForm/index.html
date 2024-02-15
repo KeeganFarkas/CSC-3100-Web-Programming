@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Merchandise Order Form</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div id="divMain" class="card col-10 offset-1 my-1">
+      <div class="card-header">
+        <h2 class="text-center">Merchandise Order Form</h2>
+      </div>
+      <div
+        class="card-body col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-10 offset-1"
+      >
+        <form>
+          <h3 class="text-center">Customer Information</h3>
+          <!-- First Name -->
+          <label for="txtFirstName" class="form-label">First Name</label>
+          <input
+            type="text"
+            id="txtFirstName"
+            class="form-control border-dark"
+          />
+
+          <!-- Last Name -->
+          <label for="txtLastName" class="form-label">Last Name</label>
+          <input
+            type="text"
+            id="txtLastName"
+            class="form-control border-dark"
+          />
+
+          <!-- Email/Username -->
+          <label for="txtEmail" class="form-label">Email</label>
+          <input type="email" id="txtEmail" class="form-control border-dark" />
+
+          <!-- Phone Number -->
+          <label for="numPhoneNumber" class="form-label">Phone Number</label>
+          <input
+            type="tel"
+            id="numPhoneNumber"
+            class="form-control border-dark"
+          />
+          <h4 class="text-center mt-4">Shipping Address</h4>
+          <!-- Street Address -->
+          <label for="txtShippingStreetAddress" class="form-label"
+            >Street Address</label
+          >
+          <input
+            type="text"
+            id="txtShippingStreetAddress"
+            class="form-control border-dark"
+          />
+
+          <!-- City -->
+          <label for="txtShippingCity" class="form-label">City</label>
+          <input
+            type="text"
+            id="txtShippingCity"
+            class="form-control border-dark"
+          />
+
+          <!-- State -->
+          <label for="txtShippingState" class="form-label">State</label>
+          <input
+            type="text"
+            id="txtShippingState"
+            class="form-control border-dark"
+          />
+
+          <!-- ZIP Code -->
+          <label for="numShippingZipCode" class="form-label">ZIP Code</label>
+          <input
+            type="number"
+            id="numShippingZipCode"
+            class="form-control border-dark"
+          />
+          <h4 class="text-center mt-4">Billing Address</h4>
+          <!-- Street Address -->
+          <label for="txtBillingStreetAddress" class="form-label"
+            >Street Address</label
+          >
+          <input
+            type="text"
+            id="txtBillingStreetAddress"
+            class="form-control border-dark"
+          />
+
+          <!-- City -->
+          <label for="txtBillingCity" class="form-label">City</label>
+          <input
+            type="text"
+            id="txtBillingCity"
+            class="form-control border-dark"
+          />
+
+          <!-- State -->
+          <label for="txtBillingState" class="form-label">State</label>
+          <input
+            type="text"
+            id="txtBillingState"
+            class="form-control border-dark"
+          />
+
+          <!-- ZIP Code -->
+          <label for="numBillingZipCode" class="form-label">ZIP Code</label>
+          <input
+            type="number"
+            id="numBillingZipCode"
+            class="form-control border-dark"
+          />
+          <h3 class="text-center mt-4">Clothing Preferences</h3>
+          <!-- Clothing Top -->
+          <label for="cboTop" class="form-label">Top</label>
+          <select id="cboTop" class="form-control border-dark">
+            <option value=""></option>
+          </select>
+
+          <!-- Clothing Bottom -->
+          <label for="cboBottom" class="form-label">Bottom</label>
+          <select id="cboBottom" class="form-control border-dark">
+            <option value=""></option>
+          </select>
+
+          <!-- Shoes -->
+          <label for="cboShoes" class="form-label">Shoes</label>
+          <select id="cboShoes" class="form-control border-dark">
+            <option value=""></option>
+          </select>
+
+          <!-- Order Button -->
+          <button
+            id="btnOrder"
+            class="btn btn-primary form-control mt-3"
+            type="button"
+          >
+            Order
+          </button>
+        </form>
+      </div>
+    </div>
+    <!-- Empty div for Order Details -->
+    <div id="divDetails"></div>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+      var arrTops;
+      var arrBottoms;
+      var arrShoes;
+
+      // Getting Tops
+      $.getJSON(
+        "https://www.swollenhippo.com/getTopsByAPIKey.php?APIKey=Mickey2024!",
+        function (result) {
+          arrTops = result;
+
+          arrTops.forEach(function (top) {
+            let strHTML =
+              '<option value="' +
+              top.Description +
+              '">' +
+              top.Description +
+              "</option>";
+            $("#cboTop").append(strHTML);
+          });
+        }
+      );
+
+      // Getting Bottoms
+      $.getJSON(
+        "https://www.swollenhippo.com/getBottomsByAPIKey.php?APIKey=Mickey2024!",
+        function (result) {
+          arrBottoms = result;
+
+          arrBottoms.forEach(function (Bottom) {
+            let strHTML =
+              '<option value="' +
+              Bottom.Description +
+              '">' +
+              Bottom.Description +
+              "</option>";
+            $("#cboBottom").append(strHTML);
+          });
+        }
+      );
+
+      // Getting Shoes
+      $.getJSON(
+        "https://www.swollenhippo.com/getShoesByAPIKey.php?APIKey=Mickey2024!",
+        function (result) {
+          arrShoes = result;
+
+          arrShoes.forEach(function (Shoe) {
+            let strHTML =
+              '<option value="' +
+              Shoe.Description +
+              '">' +
+              Shoe.Description +
+              "</option>";
+            $("#cboShoes").append(strHTML);
+          });
+        }
+      );
+
+      // When reset button is clicked:
+      $(document).on("click", "#btnReset", function () {
+        // Remove the card where the button is
+        $(this).parent().parent().remove();
+      });
+
+      // When order button is clicked:
+      $("#btnOrder").on("click", function () {
+        // Assign all the input values to variables
+        let strFirstName = $("#txtFirstName").val();
+        let strLastName = $("#txtLastName").val();
+        let strEmail = $("#txtEmail").val();
+        let numPhoneNumber = $("#numPhoneNumber").val();
+        let strShippingStreetAddress = $("#txtShippingStreetAddress").val();
+        let strShippingCity = $("#txtShippingCity").val();
+        let strShippingState = $("#txtShippingState").val();
+        let numShippingZipCode = $("#numShippingZipCode").val();
+        let strBillingStreetAddress = $("#txtBillingStreetAddress").val();
+        let strBillingCity = $("#txtBillingCity").val();
+        let strBillingState = $("#txtBillingState").val();
+        let numBillingZipCode = $("#numBillingZipCode").val();
+        let strTop = $("#cboTop").val();
+        let strBottom = $("#cboBottom").val();
+        let strShoes = $("#cboShoes").val();
+
+        // default to no errors
+        let blnError = false;
+        let strErrorMessage = "";
+
+        // if any fields are empty throw an error
+        if (strFirstName.length < 1) {
+          blnError = true;
+          strErrorMessage = strErrorMessage + "First Name cannot be blank.\n";
+        }
+        if (strLastName.length < 1) {
+          blnError = true;
+          strErrorMessage = strErrorMessage + "Last Name cannot be blank.\n";
+        }
+        if (strEmail.length < 1) {
+          blnError = true;
+          strErrorMessage = strErrorMessage + "Email cannot be blank.\n";
+        }
+        if (numPhoneNumber.length != 10) {
+          blnError = true;
+          strErrorMessage =
+            strErrorMessage + "Phone Number must be 10 digits.\n";
+        }
+        if (strShippingStreetAddress.length < 1) {
+          blnError = true;
+          strErrorMessage =
+            strErrorMessage + "Shipping Street Address cannot be blank.\n";
+        }
+        if (strShippingCity.length < 1) {
+          blnError = true;
+          strErrorMessage =
+            strErrorMessage + "Shipping City cannot be blank.\n";
+        }
+        if (strShippingState.length < 1) {
+          blnError = true;
+          strErrorMessage =
+            strErrorMessage + "Shipping State cannot be blank.\n";
+        }
+        if (numShippingZipCode.length != 5) {
+          blnError = true;
+          strErrorMessage =
+            strErrorMessage + "Shipping ZIP Code must be five digits.\n";
+        }
+        if (strBillingStreetAddress.length < 1) {
+          blnError = true;
+          strErrorMessage =
+            strErrorMessage + "Billing Street Address cannot be blank.\n";
+        }
+        if (strBillingCity.length < 1) {
+          blnError = true;
+          strErrorMessage = strErrorMessage + "Billing City cannot be blank.\n";
+        }
+        if (strBillingState.length < 1) {
+          blnError = true;
+          strErrorMessage =
+            strErrorMessage + "Billing State cannot be blank.\n";
+        }
+        if (numBillingZipCode.length != 5) {
+          blnError = true;
+          strErrorMessage =
+            strErrorMessage + "Billing ZIP Code must be five digits.\n";
+        }
+        if (strTop.length < 1) {
+          blnError = true;
+          strErrorMessage = strErrorMessage + "Top cannot be blank.\n";
+        }
+        if (strBottom.length < 1) {
+          blnError = true;
+          strErrorMessage = strErrorMessage + "Bottom cannot be blank.\n";
+        }
+        if (strShoes.length < 1) {
+          blnError = true;
+          strErrorMessage = strErrorMessage + "Shoes cannot be blank.\n";
+        }
+
+        // output the error if needed
+        if (blnError == true) {
+          console.log(strErrorMessage);
+          Swal.fire({
+            title: "Oops!",
+            text: strErrorMessage,
+            icon: "error",
+          });
+          return;
+        } else {
+          console.log("No errors found");
+        }
+
+        // Output all the variables to the console
+        console.log(strFirstName);
+        console.log(strLastName);
+        console.log(strEmail);
+        console.log(numPhoneNumber);
+        console.log(strShippingStreetAddress);
+        console.log(strShippingCity);
+        console.log(strShippingState);
+        console.log(numShippingZipCode);
+        console.log(strBillingStreetAddress);
+        console.log(strBillingCity);
+        console.log(strBillingState);
+        console.log(numBillingZipCode);
+        console.log(strTop);
+        console.log(strBottom);
+        console.log(strShoes);
+
+        // Create a card with all the details
+        let strHTML =
+          '<div class="card col-10 offset-1 mb-1"><div class="card-header"><h2 class="text-center">Order Details</h2></div><div class="card-body col-12 d-flex flex-column"><h3 class="text-center h4">Name</h3><p class="text-center">' +
+          strFirstName +
+          " " +
+          strLastName +
+          '</p><h3 class="text-center h4">Email</h3><p class="text-center">' +
+          strEmail +
+          '</p><h3 class="text-center h4">Phone Number</h3><p class="text-center">' +
+          numPhoneNumber +
+          '</p><h3 class="text-center h4">Shipping Address</h3><p class="text-center">' +
+          strShippingStreetAddress +
+          ", " +
+          strShippingCity +
+          ", " +
+          strShippingState +
+          ", " +
+          numShippingZipCode +
+          '</p><h3 class="text-center h4">Billing Address</h3><p class="text-center">' +
+          strBillingStreetAddress +
+          ", " +
+          strBillingCity +
+          ", " +
+          strBillingState +
+          ", " +
+          numBillingZipCode +
+          '</p><h3 class="text-center h4">Top</h3><p class="text-center">' +
+          strTop +
+          '</p><h3 class="text-center h4">Bottom</h3><p class="text-center">' +
+          strBottom +
+          '</p><h3 class="text-center h4">Shoes</h3><p class="text-center">' +
+          strShoes +
+          '</p><button id="btnReset" type="button" class="btn btn-danger col-lg-4 col-md-6 col-10 mx-auto" >Reset</button></div></div>';
+
+        // Append the card to the div
+        $("#divDetails").append(strHTML);
+      });
+    </script>
+  </body>
+</html>
