@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tree Observation Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+    <div class="col-12 row">
+        <div class="card col-12 col-md-6 mt-2">
+            <div class="card-body">
+                <form>
+                    <label class="form-label" for="txtTreeType">Tree Type</label>
+                    <input class="form-control" id="txtTreeType" type="text" placeholder="red oak">
+                    <label class="form-label mt-3" for="selPark">Park</label>
+                    <select class="form-control" id="selPark">
+                        <option value="Dogwood Park">Dogwood Park</option>
+                        <option value="West End Park">West End Park</option>
+                    </select>
+                    <label class="form-label mt-3" for="txtObservationDate">Observation Date</label>
+                    <input class="form-control" id="txtObservationDate" type="date">
+                    <label class="form-label mt-3" for="txtTreeHealth">Tree Health</label>
+                    <textarea rows="4" class="form-control" id="txtTreeHealth" type="text"></textarea>
+                        <div class="col-12 row mt-2">
+                            <button class="btn btn-primary col-6" type="button" id="btnAdd">Add Observation</button>
+                            <button class="btn btn-secondary col-6" type="button" id="btnCancel">Cancel</button>
+                        </div>
+                </form>
+            </div>
+        </div>
+        <div class="card col-12 col-md-6 mt-2">
+            <div class="card-body">
+                <div class="d-flex justify-content-center">
+                    <div>
+                        <img class="rounded-circle mt-5" src="https://swollenhippo.com/female1.jpeg" alt="Forester Profile Picture">
+                        <ul>
+                            <li>Jane Doe</li>
+                            <li><a href="tel: 9315262125">(931) 526-2125</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <div class="card col-12 mt-2">
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr><th>Observation Date</th><th>Location</th><th>Tree</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>2024-02-28</td><td>Dogwood Park</td><td>Sugar Maple</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

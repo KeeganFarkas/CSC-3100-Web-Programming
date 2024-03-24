@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/lib/bootstrap.min.Pulse.css" />
+</head>
+
+<body>
+    <div id="divTest">
+        <h1>This is an h1 tag</h1>
+        <span id="spnTest"></span>
+        <img src="" id="imgTest" alt="">
+        <input placeholder="email" aria-label="email" class="form-control" id="txtEmail">
+        <select class="form-control exampleselect">
+            <option value="Test">Test</option>
+            <option value="not Test">Not the Test</option>
+        </select>
+        <table class="table table-striped" id="tblFruit">
+            <thead>
+                <tr><th>name</th><th>Color</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Apple</td><td>Red</td></tr>
+                <tr><td>Orange</td><td>Orange</td></tr>
+                <tr><td>Grape</td><td>Purple</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <button type="button" class="btn btn-primary" id="btnTest">Test</button>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        const strExample = 'This is a constant variable';
+        var strExampleGlobal = 'This is a global variable'
+        $('#txtEmail').attr('type','email');
+
+        $(document).on('click','#btnTest', function() {})
+        $('#btnTest').on('click', function () {
+            let blnError = false;
+            let strError = '';
+
+            let strEmail = $('#txtEmail').val();
+            if(strEmail.length < 4){
+                blnError = true;
+                strError += 'Email must be valid';
+            }
+
+            if(blnError == true){
+                funTest(strError);
+            } else {
+                // go ahead with the program, call function etc
+            }
+        })
+
+        function funTest(strMessage) {
+            swal.fire({
+                    title: "You have an error",
+                    html: strMessage,
+                    icon: 'error',
+                })
+        }
+
+        $('.exampleselect').on('change', function () {
+            let strValue = $(this).val();
+        })
+
+        let arrFruits = ['apple', 'orange', 'grape'];
+
+        arrFruits[1]; // returns orange
+
+        arrFruits.forEach(function (billybob, index) {
+            console.log(billybob); // first it would log apple, then orange, then grape
+            if (billybob == grape) {
+                arrFruits.removeAt(index);
+            }
+        })
+
+        let objApple = { name: "Apple", color: "red" };
+        let objGrape = { name: "Grape", color: "Purple" };
+
+        arrFruits = [];
+        arrFruits.push(objApple);
+        arrFruits.push(objGrape);
+
+        arrFruits.forEach(function (fruit, index) {
+            $('tblFruit tbody').append('<tr><td>' + fruit.name + '</td><td>' + fruit.color + '</td></tr>')
+            console.log(fruit.name); // write the name of each fruit
+            console.log(fruit.color); // write the color of each fruit
+        })
+
+        sessionStorage.setItem('SimpleSession','ABCDEFG');
+        sessionStorage.setItem('ThemePreference','Dark');
+        sessionStorage.getItem('SimpleSession'); // gets ABCDEFG
+        sessionStorage.getItem('ThemePreference'); // gets Dark
+        // only persists until browser closed
+
+        localStorage.setItem('LongTermStorage','MyName');
+        localStorage.getItem('LongTermStorage'); // return My Name
+        // persists until the cache is cleared or the browser is reinstalled
+
+        $.getJSON
+        $.post
+        $.ajax({
+            url: 'https://url/endpoint',
+            type: 'POST',
+            // PUT, GET, DELETE
+            data: {SessionID:'ABCDE', Fruit:'Apple',Color:'Yellow'},
+            success: function(result) {
+                result = JSON.parse(result);
+                console.log(result.Outcome);
+            }
+        })
+    </script>
+</body>
+
+</html>

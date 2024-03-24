@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test 1</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+</head>
+
+<body>
+    <div class="row">
+        <div class="card col-12 col-md-6">
+            <div class="card-header">
+                <h1>Tree Data</h1>
+            </div>
+            <div class="card-body">
+                <form>
+                    <label for="txtTreeType" class="form-label">Tree Type</label>
+                    <input type="text" id="txtTreeType" class="form-control">
+
+                    <label for="cboPark" class="form-label mt-3">Park</label>
+                    <select class="form-control">
+                        <option value="Dogwood Park">Dogwood Park</option>
+                        <option value="West End Park">West End Park</option>
+                    </select>
+
+                    <label for="txtObservationData" class="form-label mt-3">Observation Data</label>
+                    <input type="text" id="txtObservationData" class="form-control">
+
+                    <label for="txtTreeHealth" class="form-label mt-3">Current Health</label>
+                    <textarea id="txtTreeHealth" class="form-control" cols="30" rows="5"></textarea>
+
+                    <div class="d-flex mt-3">
+                        <button type="button" class="btn col-5 btn-primary">Add</button>
+
+                        <button type="button" class="btn col-5 offset-2 btn-secondary">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="card col-12 col-md-6">
+            <div class="card-body d-flex flex-column justify-content-center">
+                <img src="https://swollenhippo.com/female1.jpeg" alt="Profile Picture" class="rounded-circle">
+                <ul>
+                    <li>Jane Doe</li>
+                    <li><a href="tel:9315262125">(931)526-2125</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="card col-12">
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Observation Data</th>
+                        <th>Location</th>
+                        <th>Tree</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2024-02-28</td>
+                        <td>Dogwood Park</td>
+                        <td>Sugar Maple</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
