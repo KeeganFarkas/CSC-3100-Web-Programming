@@ -72,9 +72,16 @@ app.get("/fruit",(req,res,next) => {
 app.delete("/fruit",(req,res,next) => {
     let strName = req.query.name;
     if(strName){
-        let strCommand = "SELECT * FROM tblFruit WHERE name = " + strName;
-    } else{
-        res.status(400).json({error:"No fruit name provided"});
+        arrFruit.forEach(function(fruit,index){
+            if(fruit.name == strName){
+                arrFruit.splice(index,-1);
+                res.status(200).send(fruit);
+            }
+        })
+        res.status(200).send({message:'Fruit Not Found'});
+    } else {
+        arrFruit = [];
+        res.status(200).send(arrFruit);
     }
 })
 
