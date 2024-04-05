@@ -1,0 +1,117 @@
+html[data-theme='light'] {
+    --bg-color: #e4f0fa;
+    --primary: #ff7c7c;
+    --dk-text: #2b3c5b;
+    --dk-subtext: #7a8aa3;
+    --card: #e6eef8;
+    --component-s: #c4cdd1;
+    --component: #d3dee3;
+    --grad-base: rgb(250, 177, 135);
+    --gradient-1: rgb(250, 177, 135);
+    --gradient-2: rgb(246, 117, 117);
+    --cal-indicator: invert(72%) sepia(40%) saturate(5103%) hue-rotate(314deg)
+      brightness(110%) contrast(105%);
+  }
+  html[data-theme='dark'] {
+    --bg-color: #121215;
+    --primary: #8d8fd2;
+    --dk-text: #dfe0fb;
+    --dk-subtext: #84849d;
+    --card: #18181c;
+    --component-s: #454254;
+    --component: #2f2d36;
+    --grad-base: rgb(125, 90, 242);
+    --gradient-1: rgb(145, 114, 247);
+    --gradient-2: rgb(104, 61, 247);
+    --cal-indicator: invert(57%) sepia(96%) saturate(184%) hue-rotate(200deg)
+      brightness(85%) contrast(93%);
+  }
+
+:root{
+    --transition: 0.2s ease-out;
+}
+
+*{
+    font-family: 'Lexend Deca', sans-serif;
+}
+
+body{
+    background-color: var(--bg-color);
+    min-height: 100vh;
+    transition: var(--transition);
+}
+
+h1{
+    color: var(--dk-text);
+}
+
+h2{
+    color: var(--primary);
+    font-size: 20px;
+}
+
+p{
+    color: var(--dk-subtext);
+    font-size: 14px; 
+}
+
+span{
+    background: var(--grad-base);
+    background: linear-gradient(130deg, var(--gradient-1) 0%, var(--gradient-2) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: var(--transition);
+}
+
+.transition{
+    transition: var(--transition);
+}
+
+.logo-tasks{
+    color: var(--dk-subtext);
+}
+
+.card{
+    background-color: var(--card);
+    border-radius: 24px;
+    transition: var(--transition);
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px;
+}
+
+.vh-50{
+    height: 50vh;
+}
+
+.fa-clipboard-list{
+    margin-left: 2px;
+    margin-right: 10px;
+}
+
+.fa-square-check, .fa-calendar-day, .fa-folder{
+    margin-left: 1px;
+    margin-right: 9px;
+}
+
+.projects{
+    height: 140px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.tasks{
+    height: 320px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.btnPurple{
+    border-radius: 24px;
+    border: none;
+    height: 40px;
+    width: 130px;
+    color: var(--dk-text);
+    background: linear-gradient(160deg, var(--gradient-1) 0%, var(--gradient-2) 100%);
+    transition: 0.2s ease-out;
+    box-shadow: rgba(0, 0, 0, 0.15) 5px 5px 15px 0px;
+}

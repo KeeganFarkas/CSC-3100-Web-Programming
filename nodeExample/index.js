@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
-const { TOOBIG } = require('sqlite3');
+const {v4:uuidv4} = require('uuid');
+const bcrypt = require('bcrypt');
 const sqlite3 = require('sqlite3').verbose();
 const dbSource = "node.db";
 const db = new sqlite3.Database(dbSource);
@@ -17,6 +18,7 @@ class Fruit {
     }
 }
 
+let strID = uuidv4();
 var arrFruit = [];
 let objBanana = new Fruit('banana','yellow');
 let objApple = new Fruit('apple','red');
@@ -40,7 +42,7 @@ app.post("/fruit",(req,res,next) => {
             if(err){
                 res.status(400).json({error:err.message});
             } else{
-                res.status(201).json({message:"success",fruit:objFruit})
+                res.status(201).json({message:"success",fruit:objFruit});
             }
         })
     } else{
@@ -48,8 +50,62 @@ app.post("/fruit",(req,res,next) => {
     }
 })
 
-app.get("/fruit",(req,res,next) => {
-    let strName = req.query.name;
+app.post("/users",(req,res,next) => {
+    let strEmail = req.query.email;
+    let strPassword = req.query.password;
+    if(strEmail && strPassword){
+        bcrypt.hash(strPassword, 10).then(hash => {
+            strPassword = hash;
+            let strCommand = 'INSERT INTO tblUsers VALUES(?,?)';
+            let arrParameters = [strEmail, strPassword];
+            db.run(strCommand,arrParameters,function(err,result){
+                if(err){
+                    res.status(400).json({error:err.message});
+                } else{
+                    res.status(201).json({message:"success",email:strEmail});
+                }
+            })
+        })
+    } else{
+        res.status(400).json({error:"Not all parameters provided"});
+    }
+})
+
+app.post("/sessions",(req,res,next) => {
+    let strEmail = req.query.email;
+    let strPassword = req.query.password;
+    let strSessionID = uuidv4();
+    if(strEmail && strPassword){
+        bcrypt.hash(strPassword, 10).then(hash => {
+            strPassword = hash;
+            let strCommand = "SELECT * FROM tblUsers WHERE Email = ? AND Password = ?";
+            let arrParameters = [strEmail,strPassword];
+            db.all(strCommand,arrParameters,function(err,result){
+                if(result.length > 0){
+                    strCommand = "INSERT INTO tblSessions VALUES(?,?)";
+                    arrParameters = [strSessionID,strEmail];
+                    db.run(strCommand,arrParameters,function(err,result){
+                        if(err){
+                            res.status(400).json({error:err.message});
+                        } else {
+                            res.status(201).json({
+                                message:"success",
+                                sessionid:strSessionID
+                            })
+                        }
+                    })
+                }
+            })
+            
+        })
+    } else {
+        res.status(400).json({error:"Not all parameters provided"})
+    }
+    
+})
+
+app.get("/fruit/:name",(req,res,next) => {
+    let strName = req.params.name;
     if(strName){
         let strCommand = "SELECT * FROM tblFruit WHERE name = ?";
         let arrParameters = [strName];
