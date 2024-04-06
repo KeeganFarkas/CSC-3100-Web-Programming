@@ -6,6 +6,7 @@ html[data-theme='light'] {
     --card: #e6eef8;
     --component-s: #c4cdd1;
     --component: #d3dee3;
+    --selected: rgb(211, 222, 227);
     --grad-base: rgb(250, 177, 135);
     --gradient-1: rgb(250, 177, 135);
     --gradient-2: rgb(246, 117, 117);
@@ -20,11 +21,15 @@ html[data-theme='light'] {
     --card: #18181c;
     --component-s: #454254;
     --component: #2f2d36;
+    --selected: rgb(47, 45, 54);
     --grad-base: rgb(125, 90, 242);
     --gradient-1: rgb(145, 114, 247);
     --gradient-2: rgb(104, 61, 247);
     --cal-indicator: invert(57%) sepia(96%) saturate(184%) hue-rotate(200deg)
       brightness(85%) contrast(93%);
+    input[type="date"]::-webkit-calendar-picker-indicator {
+        filter: invert(1);
+    }
   }
 
 :root{
@@ -45,14 +50,18 @@ h1{
     color: var(--dk-text);
 }
 
-h2{
+h2, label{
     color: var(--primary);
     font-size: 20px;
 }
 
 p{
     color: var(--dk-subtext);
-    font-size: 14px; 
+}
+
+a{
+    color: var(--primary);
+    text-decoration: none;
 }
 
 span{
@@ -64,12 +73,50 @@ span{
     transition: var(--transition);
 }
 
+button{
+    border: none;
+}
+
+input{
+    color: var(--dk-subtext);
+    border: none;
+}
+
+select{
+    background-color: transparent;
+    color: var(--dk-subtext);
+    border: none;
+}
+
+hr{
+    height: 4px;
+    background: var(--primary);
+    border: none;
+    border-radius: 2px;
+    opacity: 1;
+}
+
+textarea{
+    color: var(--dk-subtext);
+    height: 200px;
+    resize: none;
+    border: none;
+}
+
 .transition{
     transition: var(--transition);
 }
 
+.selected{
+    background-color: var(--selected) !important;
+}
+
 .logo-tasks{
     color: var(--dk-subtext);
+}
+
+.divHeader{
+    max-width: 510px;
 }
 
 .card{
@@ -79,22 +126,56 @@ span{
     box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px;
 }
 
+.loginTitle{
+    color: var(--dk-text);
+}
+
 .vh-50{
     height: 50vh;
 }
 
+.login-card{
+    max-width: 300px;
+}
+
+.filter-card, .logo{
+    max-width: 270px;
+}
+
+.task-card, .divHeader{
+    max-width: 510px;
+}
+
+.btnFilter{
+    color: var(--dk-subtext);
+    font-size: 14px;
+    background-color: transparent;
+    width: 95%;
+}
+
 .fa-clipboard-list{
+    color: var(--dk-subtext);
     margin-left: 2px;
     margin-right: 10px;
 }
 
 .fa-square-check, .fa-calendar-day, .fa-folder{
+    color: var(--dk-subtext);
     margin-left: 1px;
     margin-right: 9px;
 }
 
+.fa-location-dot, .fa-gears{
+    color: var(--dk-subtext);
+}
+
+.btnIcon{
+    background-color: transparent;
+    color: var(--dk-subtext);
+}
+
 .projects{
-    height: 140px;
+    height: 150px;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -105,13 +186,38 @@ span{
     overflow-x: hidden;
 }
 
+.task{
+    background-color: var(--component);
+    color: var(--dk-text);
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 4px 4px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-radius: 10px;
+    width: 95%;
+}
+
 .btnPurple{
     border-radius: 24px;
-    border: none;
     height: 40px;
     width: 130px;
     color: var(--dk-text);
     background: linear-gradient(160deg, var(--gradient-1) 0%, var(--gradient-2) 100%);
     transition: 0.2s ease-out;
     box-shadow: rgba(0, 0, 0, 0.15) 5px 5px 15px 0px;
+}
+
+.selectFolder{
+    margin: 0;
+}
+
+.txtTask{
+    background-color: transparent;
+    color: var(--dk-text);
+    width: 65%;
+}
+
+.btnBack{
+    background-color: transparent;
+    color: var(--dk-subtext);
 }

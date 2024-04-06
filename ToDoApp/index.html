@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ToDoApp</title>
+    <title>flowtasks</title>
 
     <script src="https://kit.fontawesome.com/d7eaa0fcbe.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -17,36 +17,118 @@
 </head>
 
 <body>
-    <div class="col-xxl-6 offset-xxl-3 col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 col-10 offset-1">
-        <h1 class="fw-normal display-5 py-5">flow<span class="logo-tasks">tasks</span></h1>
-        <div class="d-flex justify-content-between">
-            <div class="card col-xl-4 col-3 px-4 pt-4  vh-50 d-flex flex-column">
-                <h2>Filters</h2>
-                <p class="rounded-3 px-2 py-1 mb-2 transition" style="background-color: rgb(47, 45, 54);"><i
-                        class="fa-solid fa-inbox me-2 fs-6"></i>All</p>
-                <p class="rounded-3 px-2 py-1 mb-2 transition"><i class="fa-solid fa-clipboard-list fs-6"></i>To-Do</p>
-                <p class="rounded-3 px-2 py-1 mb-2 transition"><i class="fa-solid fa-gears fs-6 me-1"></i>In Progress</p>
-                <p class="rounded-3 px-2 py-1 mb-2 transition"><i class="fa-solid fa-square-check fs-6"></i>Complete</p>
-                <div class="d-flex justify-content-between mt-2 mb-2">
-                    <h2 class="my-auto">Projects</h2>
-                    <p class="my-auto"><i class="fa-solid fa-plus fs-4"></i></p>
-                </div>
-                <div class="projects">
-                    <p class="rounded-3 px-2 py-1 mb-2 transition" style="background-color: rgb(47, 45, 54);"><i class="fa-solid fa-folder fs-6"></i>Today</p>
-                    <p class="rounded-3 px-2 py-1 mb-2 transition"><i class="fa-regular fa-folder fs-6"></i>Today</p>
-                    <p class="rounded-3 px-2 py-1 mb-2 transition"><i class="fa-regular fa-folder fs-6"></i>Today</p>
-                </div>
-                <p class="m-auto"><i class="fa-regular fa-sun fs-4"></i></p>
+    <!--Logo-->
+    <header class="d-flex justify-content-center px-5">
+        <h1 class="logo w-100 fw-normal display-5 py-4 text-center">flow<span class="logo-tasks">tasks</span></h1>
+        <div class="divHeader w-100 d-none"></div>
+    </header>
+    <!--Login Card-->
+    <div id="divLogin" class="d-flex justify-content-center px-5">
+        <form class="card login-card w-100 px-4 pt-4 d-flex flex-column">
+            <h2 class="text-center fs-2 fw-normal loginTitle mb-4">Login</h2>
+            <label for="txtLoginEmail" class="mb-2">Email</label>
+            <input type="email" required class="rounded-3 px-2 py-1 mb-4 selected" id="txtLoginEmail">
+
+            <label for="txtLoginPassword" class="mb-2">Password</label>
+            <input type="password" required class="rounded-3 px-2 py-1 mb-5 selected" id="txtLoginPassword">
+
+            <button class="btnPurple w-100 py-2 mb-2">Login</button>
+            <p class="text-center m-0">Don't have an account yet?</p>
+            <a class="text-center mb-2" href="">Sign Up</a>
+        </form>
+    </div>
+    <!--Register Card-->
+    <div id="divRegister" class="d-flex justify-content-center px-5 d-none">
+        <form class="card login-card w-100 px-4 pt-4 d-flex flex-column">
+            <h2 class="text-center fs-2 fw-normal loginTitle mb-4">Register</h2>
+            <label for="txtRegisterEmail" class="mb-2">Email</label>
+            <input type="email" required class="rounded-3 px-2 py-1 mb-4 selected" id="txtRegisterEmail">
+
+            <label for="txtRegisterPassword" class="mb-2">Password</label>
+            <input type="password" required class="rounded-3 px-2 py-1 mb-4 selected" id="txtRegisterPassword">
+
+            <label for="txtRegisterConfirmPassword" class="mb-2">Confirm Password</label>
+            <input type="password" required class="rounded-3 px-2 py-1 mb-5 selected" id="txtRegisterConfirmPassword">
+
+            <button class="btnPurple w-100 py-2 mb-2">Login</button>
+            <p class="text-center m-0">Already have an account?</p>
+            <a class="text-center mb-2" href="">Log In</a>
+        </form>
+    </div>
+    <!--Main Content-->
+    <div id="divMain" class="d-flex justify-content-center px-5 d-none">
+        <!--Filter Card-->
+        <div class="card filter-card w-100 px-4 pt-4 d-flex flex-column">
+            <h2>Filters</h2>
+            <button class="rounded-3 ps-2 py-1 mb-2 transition text-start btnFilter selected"><i
+                    class="fa-solid fa-inbox me-2 fs-6"></i>All</button>
+            <button class="rounded-3 ps-2 py-1 mb-2 transition text-start btnFilter"><i class="fa-solid fa-clipboard-list fs-6"></i>To-Do</button>
+            <button class="rounded-3 ps-2 py-1 mb-2 transition text-start btnFilter"><i class="fa-solid fa-gears fs-6 me-1"></i>In Progress</button>
+            <button class="rounded-3 ps-2 py-1 mb-2 transition text-start btnFilter"><i class="fa-solid fa-square-check fs-6"></i>Complete</button>
+            <div class="d-flex justify-content-between mt-2 mb-2">
+                <h2 class="my-auto">Projects</h2>
+                <button class="my-auto btnIcon  "><i class="fa-solid fa-plus fs-4"></i></button>
             </div>
-            <div class="card col-xl-8 col-9 ms-4 p-4 vh-50 d-flex flex-column">
+            <div class="projects">
+                <button class="rounded-3 ps-2 py-1 mb-2 text-start transition btnFilter selected"><i class="fa-solid fa-folder fs-6"></i>Today</button>
+                <button class="rounded-3 ps-2 py-1 mb-2 text-start transition btnFilter"><i class="fa-regular fa-folder fs-6"></i>Today</button>
+                <button class="rounded-3 ps-2 py-1 mb-2 text-start transition btnFilter"><i class="fa-regular fa-folder fs-6"></i>Today</button>
+                <button class="rounded-3 ps-2 py-1 mb-2 text-start transition btnFilter"><i class="fa-regular fa-folder fs-6"></i>Today</button>
+            </div>
+            <button class="mx-auto my-2 btnIcon"><i class="fa-regular fa-sun fs-4"></i></button>
+        </div>
+        <!--Task Card-->
+        <div class="card task-card w-100 ms-4 p-4">
+            <!--Task Display-->
+            <div class="d-none">
                 <h2>Tasks</h2>
-                <div class="tasks">
+                <div class="tasks mb-2">
                     <p class="noTasks fs-5 text-center mt-4 d-none">No tasks found</p>
+                    <button class="task fw-light ps-2 pe-3 py-2 mb-2 me-2 transition text-start"><i class="fa-solid fa-clipboard-list fs-6"></i>Take the dogs out</button>
+                    <button class="task fw-light ps-2 pe-3 py-2 mb-2 me-2 transition text-start"><i class="fa-solid fa-clipboard-list fs-6"></i>To-Do</button>
+                    <button class="task fw-light ps-2 pe-3 py-2 mb-2 me-2 transition text-start"><i class="fa-solid fa-clipboard-list fs-6"></i>To-Do</button>
+                    <button class="task fw-light ps-2 pe-3 py-2 mb-2 me-2 transition text-start"><i class="fa-solid fa-clipboard-list fs-6"></i>To-Do</button>
+                    <button class="task fw-light ps-2 pe-3 py-2 mb-2 me-2 transition text-start"><i class="fa-solid fa-clipboard-list fs-6"></i>To-Do</button>
+                    <button class="task fw-light ps-2 pe-3 py-2 mb-2 me-2 transition text-start"><i class="fa-solid fa-clipboard-list fs-6"></i>To-Do</button>
+                    <button class="task fw-light ps-2 pe-3 py-2 mb-2 me-2 transition text-start"><i class="fa-solid fa-clipboard-list fs-6"></i>To-Do</button>
                 </div>
                 <div class="d-flex justify-content-end align-items-center flex-grow-1">
                     <button id="btnAdd" type="button" class="btnPurple">Add Task</button>
                 </div>
             </div>
+            <!--Task Form-->
+            <form>
+                <div class="d-flex justify-content-between mb-5">
+                    <div>
+                        <i class="fa-regular fa-folder fs-6 selectFolder"></i>
+                        <select aria-label="Project" class="" id="cboProjects">
+                            <option value="0">Todaydfgfd</option>
+                            <option value="1">Tomorrow</option>
+                            <option value="2">This Week</option>
+                            <option value="3">This Month</option>
+                        </select>
+                    </div>
+                    <div>
+                        <i class="fa-solid fa-location-dot"></i>
+                        <input aria-label="Location" class="transition fs-6 rounded-3 px-2 selected">
+                    </div>
+                </div>
+                <div>
+                    <input aria-label="Task" required class="txtTask transition rounded-3 fs-5 px-2 me-2">
+                    <i class="fa-solid fa-gears fs-4"></i>
+                    <select aria-label="Status" class="cboStatus" id="cboStatus">
+                        <option value="0">To-Do</option>
+                        <option value="1">In Progress</option>
+                        <option value="2">Complete</option>
+                    </select>
+                </div>
+                <hr class="mb-4">
+                <textarea class="w-100 rounded-3 px-2 mb-3 selected">dsfdssfdsfsf</textarea>
+                <div class="d-flex justify-content-between">
+                    <button class="btnBack"><i class="fa-solid fa-chevron-left me-2"></i>Save and Exit</button>
+                    <input type="date" class="rounded-3 px-2 selected">
+                </div>
+            </form>
         </div>
     </div>
 
