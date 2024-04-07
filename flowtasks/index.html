@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>flowtasks</title>
+
+    <script src="https://kit.fontawesome.com/d7eaa0fcbe.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+
+</head>
+
+<body>
+    <!--Logo-->
+    <header class="d-flex justify-content-center px-5">
+        <h1 id="h1Logo" class="w-100 fw-normal display-5 text-center py-4 transition">flow<span
+                class="logo-tasks">tasks</span></h1>
+        <div id="divHeader" class="w-100" style="display: none"></div>
+    </header>
+    <!--Login Card-->
+    <div id="divLogin" style="display: none">
+        <div class="d-flex justify-content-center px-5">
+            <form class="card login-card w-100 px-4 pt-4 d-flex flex-column">
+                <h2 class="text-center fs-2 fw-normal loginTitle mb-4">Login</h2>
+                <label for="txtLoginEmail" class="mb-2">Email</label>
+                <input type="text" class="rounded-3 px-2 py-1 mb-4 selected" id="txtLoginEmail">
+
+                <label for="txtLoginPassword" class="mb-2">Password</label>
+                <input type="password" class="rounded-3 px-2 py-1 mb-5 selected" id="txtLoginPassword">
+
+                <button id="btnLogin" type="button" class="btnPurple w-100 py-2 mb-2" aria-label="Login">Login</button>
+                <p class="text-center m-0">Don't have an account yet?</p>
+                <a class="text-center mb-2 btnToggle" data-card="Login" href="#" aria-label="Sign Up">Sign Up</a>
+            </form>
+        </div>
+    </div>
+    <!--Register Card-->
+    <div id="divRegister" style="display: none">
+        <div class="d-flex justify-content-center px-5">
+            <form class="card login-card w-100 px-4 pt-4 d-flex flex-column">
+                <h2 class="text-center fs-2 fw-normal loginTitle mb-4">Register</h2>
+                <label for="txtRegisterEmail" class="mb-2">Email</label>
+                <input type="text" class="rounded-3 px-2 py-1 mb-4 selected" id="txtRegisterEmail">
+
+                <label for="txtRegisterPassword" class="mb-2">Password</label>
+                <input type="password" class="rounded-3 px-2 py-1 mb-4 selected" id="txtRegisterPassword">
+
+                <label for="txtRegisterConfirmPassword" class="mb-2">Confirm Password</label>
+                <input type="password" class="rounded-3 px-2 py-1 mb-5 selected" id="txtRegisterConfirmPassword">
+
+                <button id="btnRegister" type="button" class="btnPurple w-100 py-2 mb-2"
+                    aria-label="Register">Register</button>
+                <p class="text-center m-0">Already have an account?</p>
+                <a class="text-center mb-2 btnToggle" datacard="Register" href="#" aria-label="Log In">Log In</a>
+            </form>
+        </div>
+    </div>
+    <!--Main Content-->
+    <div id="divMain" style="display: none">
+        <div id="divMainContainer" class="d-flex justify-content-center px-5">
+            <!--Filter Card-->
+            <div class="card filter-card w-100 px-4 pt-4 d-flex flex-column">
+                <div class="d-flex justify-content-between">
+                    <h2>Filters</h2>
+                    <button id="btnLogout" class="btnIcon btnCancelProject" aria-label="Logout"><i
+                            class="fa-solid fa-right-from-bracket fs-4"></i></button>
+                </div>
+                <button id="btnAll"
+                    class="btnCancelProject rounded-3 ps-2 py-1 mb-2 transition text-start btnFilter selected" aria-label="All"><i
+                        class="fa-solid fa-inbox me-2 fs-6"></i>All</button>
+                <button id="btnToDo"
+                    class="btnCancelProject rounded-3 ps-2 py-1 mb-2 transition text-start btnFilter" aria-label="To-Do"><i
+                        class="fa-solid fa-clipboard-list fs-6"></i>To-Do</button>
+                <button id="btnInProgress"
+                    class="btnCancelProject rounded-3 ps-2 py-1 mb-2 transition text-start btnFilter" aria-label="In Progress"><i
+                        class="fa-solid fa-gears fs-6"></i>In Progress</button>
+                <button id="btnComplete"
+                    class="btnCancelProject rounded-3 ps-2 py-1 mb-2 transition text-start btnFilter" aria-label="Complete"><i
+                        class="fa-solid fa-square-check fs-6"></i>Complete</button>
+                <div class="d-flex justify-content-between mt-2 mb-2">
+                    <div class="d-flex">
+                        <h2 class="my-auto">Projects</h2>
+                        <button disabled id="btnDeleteProject" class="my-auto btnIcon"><i aria-label="Delete Project"
+                                class="fa-solid fa-trash fs-4 ms-2"></i></button>
+                    </div>
+                    <div class="d-flex">
+                        <button id="btnSubmitProject" class="my-auto btnIcon" aria-label="Submit Project"
+                            style="display: none"><i class="fa-solid fa-check fs-4"></i></button>
+                        <button id="btnPlus" class="btnSaveProject my-auto btnIcon"><i aria-label="Add Project"
+                                class="fa-solid fa-plus fs-4"></i></button>
+                        <button id="btnCross" class="btnSaveProject my-auto btnIcon" style="display: none"><i
+                                aria-label="Cancel" class="fa-solid fa-xmark fs-4"></i></button>
+                    </div>
+                </div>
+                <div id="divProjects">
+                    <input id="txtProjects" class="rounded-3 px-2 py-1 mb-2 transition selected" type="text"
+                        aria-label="Project Name" style="display: none">
+                    <div id="divSavedProjects"></div>
+                </div>
+                <button id="btnToggleMode" class="btnCancelProject mx-auto my-2 btnIcon"><i id="iToggle"
+                        class="fa-regular fa-sun fs-4" aria-label="dark/light mode toggle"></i></button>
+            </div>
+            <!--Task Card-->
+            <div class="card task-card w-100 ms-4 p-4">
+                <!--Task Display-->
+                <div id="divTaskDisplay">
+                    <h2>Tasks</h2>
+                    <div id="divTasks" class="mb-2">
+                        <p id="parNoTasks" class="fs-5 text-center mt-4">No tasks found</p>
+                    </div>
+                    <div class="d-flex justify-content-end align-items-center flex-grow-1">
+                        <button id="btnAdd" type="button" class="btnCancelProject btnPurple" aria-label="Add Task">Add Task</button>
+                    </div>
+                </div>
+                <!--Task Form-->
+                <form id="formTask" style="display: none">
+                    <div id="divFormTaskHeader" class="d-flex justify-content-between mb-5">
+                        <input id="txtTaskSmall" aria-label="Task Name" class="txtTask transition rounded-3 fs-5 px-2 me-2" style="display: none;">
+                        <hr id="hrSmall" class="mb-4" style="display: none">
+                        <div id="divFormTaskSelectProject">
+                            <i class="fa-regular fa-folder fs-6 selectFolder"></i>
+                            <select aria-label="Project" id="cboProjects">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div>
+                            <i class="fa-solid fa-location-dot btnIcon"></i>
+                            <input id="txtLocation" aria-label="Location"
+                                class="transition fs-6 rounded-3 px-2 selected">
+                        </div>
+                    </div>
+                    <div id="divTaskNameStatus" class="d-flex justify-content-start">
+                        <input id="txtTaskLarge" aria-label="Task Name" class="txtTask transition rounded-3 fs-5 px-2 me-2">
+                        <div id="divFormStatus">
+                            <i id="iStatus" class="fa-solid fa-clipboard-list m-0 fs-4"></i>
+                            <select aria-label="Status" class="cboStatus" id="cboStatus">
+                                <option value="To-Do">To-Do</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Complete">Complete</option>
+                            </select>
+                        </div>
+                    </div>
+                    <hr id="hrLarge" class="mb-4">
+                    <input id="txtDueDateSmall" type="date" class="rounded-3 px-2 selected" aria-label="Due Date" style="display: none">
+                    <textarea id="txtInstructions" class="w-100 rounded-3 px-2 mb-3 selected" aria-label="Instructions"></textarea>
+                    <div class="d-flex justify-content-between">
+                        <button type="button" id="btnBack" aria-label="Back"><i class="fa-solid fa-chevron-left me-2"></i><span id="spnExit">Exit</span></button>
+                        <input id="txtDueDateLarge" type="date" class="rounded-3 px-2 selected">
+                        <div class="d-flex">
+                            <button id="btnDelete" class="btnIcon me-2 d-flex align-items-center"
+                                aria-label="Delete Task"><i class="fa-solid fa-trash fs-4"></i></button>
+                            <button id="btnSave" type="button" class="btnPurple">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        class Task {
+            constructor(strTaskName, strDueDate, strLocation, strInstructions, strStatus, strTaskID, strProjectID) {
+                this.TaskName = strTaskName;
+                this.DueDate = strDueDate;
+                this.Location = strLocation;
+                this.Instructions = strInstructions;
+                this.Status = strStatus;
+                this.TaskID = strTaskID;
+                this.ProjectID = strProjectID;
+            }
+        }
+        arrTasks = [];
+        let strSessionID = "";
+        let strTaskID = "";
+        let objFilters = { Status: "All", ProjectID: "All" };
+        // Update Session TimeStamp
+        function updateSession(strSessionID) {
+            $.ajax({
+                url: "http://localhost:8000/sessions",
+                type: "PUT",
+                contentType: "application/json",
+                data: JSON.stringify({ SessionID: strSessionID }),
+            });
+        }
+        // Apply Filters based on Status and Project
+        function applyFilters() {
+            $("#divTasks").empty();
+            $("#divTasks").prepend('<p id="parNoTasks" class="fs-5 text-center mt-4" style="display: none">No tasks found</p>');
+            let blnNoTasks = true;
+
+            arrTasks.forEach(function (task) {
+                let showTask = true;
+
+                if (objFilters.Status != "All" && task.Status != objFilters.Status) {
+                    showTask = false;
+                }
+                if (objFilters.ProjectID != "All" && task.ProjectID != objFilters.ProjectID) {
+                    showTask = false;
+                }
+
+                if (showTask) {
+                    blnNoTasks = false;
+                    let strStatusIcon = "";
+                    if (task.Status == "To-Do") {
+                        strStatusIcon = "clipboard-list";
+                    } else if (task.Status == "In Progress") {
+                        strStatusIcon = "gears";
+                    } else {
+                        strStatusIcon = "square-check";
+                    }
+                    $("#divTasks").prepend('<button id="' + task.TaskID + '" class="task fw-light ps-2 pe-3 py-2 mb-2 me-2 transition text-start" aria-label="' + task.TaskName + '"><i class="fa-solid fa-' + strStatusIcon + ' fs-6"></i>' + task.TaskName + '</button>');
+                }
+            })
+            if (blnNoTasks) {
+                $("#parNoTasks").show();
+            }
+        }
+        // Populate Projects
+        function populateProjects() {
+            $.ajax({
+                url: "http://localhost:8000/projects",
+                type: "GET",
+                data: { SessionID: strSessionID },
+                success: function (result) {
+                    result.Projects.forEach(function (project) {
+                        $("#divSavedProjects").prepend('<button id="' + project.ProjectID + '" class="btnCancelProject rounded-3 ps-2 py-1 mb-2 text-start transition btnProject" aria-label="' + project.ProjectName + '"><i class="fa-regular fa-folder fs-6"></i>' + project.ProjectName + '</button>');
+                        $("#cboProjects").prepend('<option value="' + project.ProjectID + '">' + project.ProjectName + '</option>');
+                    });
+                },
+            });
+        }
+        // Populate Tasks
+        function populateTasks() {
+            $.ajax({
+                url: "http://localhost:8000/tasks",
+                type: "GET",
+                data: { SessionID: strSessionID },
+                success: function (result) {
+                    let strStatusIcon = "";
+                    result.Tasks.forEach(function (task) {
+                        let statusIcon = "";
+                        if (arrTasks.length == 0) {
+                            $("#parNoTasks").hide();
+                        }
+                        let objTask = new Task(task.TaskName, task.DueDate, task.Location, task.Instructions, task.Status, task.TaskID, task.ProjectID);
+                        arrTasks.push(objTask);
+                        if (task.Status == "To-Do") {
+                            strStatusIcon = "clipboard-list";
+                        } else if (task.Status == "In Progress") {
+                            strStatusIcon = "gears";
+                        } else {
+                            strStatusIcon = "square-check";
+                        }
+                        $("#divTasks").prepend('<button id="' + task.TaskID + '" class="task fw-light ps-2 pe-3 py-2 mb-2 me-2 transition text-start" aria-label="' + task.TaskName + '"><i class="fa-solid fa-' + strStatusIcon + ' fs-6"></i>' + task.TaskName + '</button>');
+                    });
+                },
+            });
+        }
+        // Check for session
+        $(document).ready(function () {
+            if (sessionStorage.getItem("SimpleSession")) {
+                strSessionID = sessionStorage.getItem("SimpleSession");
+                updateSession(strSessionID);
+                $("#divHeader").toggle();
+                $("#h1Logo").removeClass("text-center");
+                $('#divMain').slideToggle();
+                populateProjects();
+                populateTasks();
+            } else {
+                $("#divLogin").slideToggle();
+            }
+        });
+        // Register
+        $('#btnRegister').on('click', function () {
+            let strEmail = $('#txtRegisterEmail').val();
+            let strPassword = $('#txtRegisterPassword').val();
+            let strConfirmPassword = $('#txtRegisterConfirmPassword').val();
+            $('#txtRegisterEmail').val('');
+            $('#txtRegisterPassword').val('');
+            $('#txtRegisterConfirmPassword').val('');
+
+            let blnError = false;
+            let strErrorMessage = "";
+
+            let regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+            if (!regexEmail.exec(strEmail)) {
+                blnError = true;
+                strErrorMessage = strErrorMessage + "<p>Invalid Email.</p>";
+            }
+
+            let regexPassword = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/;
+            if (!regexPassword.exec(strPassword)) {
+                blnError = true;
+                strErrorMessage = strErrorMessage + "<p>Password must be 8-16 characters, including a lowercase and uppercase letter, a number, and a special character.</p>";
+            }
+
+            if (blnError == true) {
+                console.log(strErrorMessage);
+                Swal.fire({
+                    title: "Oops!",
+                    html: strErrorMessage,
+                    icon: "error",
+                });
+            } else {
+                if (strPassword != strConfirmPassword) {
+                    Swal.fire({
+                        title: "Oops!",
+                        text: "Passwords do not match.",
+                        icon: "error",
+                    });
+                } else {
+                    $.ajax({
+                        url: "http://localhost:8000/users",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify({ Email: strEmail, Password: strPassword }),
+                        success: function (result) {
+                            if (result.Message != "success") {
+                                Swal.fire({
+                                    title: "Oops!",
+                                    text: "User already exists.",
+                                    icon: "error",
+                                });
+                            } else {
+                                $.ajax({
+                                    url: "http://localhost:8000/sessions",
+                                    type: "POST",
+                                    contentType: "application/json",
+                                    data: JSON.stringify({ Email: strEmail, Password: strPassword }),
+                                    success: function (result) {
+                                        strSessionID = result.SessionID;
+                                        sessionStorage.setItem("SimpleSession", strSessionID);
+                                        $("#divRegister").slideToggle(function () {
+                                            $("#divMain").toggle();
+                                            $("#divHeader").slideToggle();
+                                            $("#h1Logo").removeClass("text-center");
+                                        });
+                                    },
+                                })
+                            }
+                        },
+                    });
+                }
+            }
+        });
+        // Login
+        $('#btnLogin').on('click', function () {
+            let strEmail = $('#txtLoginEmail').val();
+            let strPassword = $('#txtLoginPassword').val();
+            $('#txtLoginEmail').val('');
+            $('#txtLoginPassword').val('');
+            if (strEmail && strPassword) {
+                $.ajax({
+                    url: "http://localhost:8000/sessions",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify({ Email: strEmail, Password: strPassword }),
+                    success: function (result) {
+                        if (result.SessionID != undefined) {
+                            strSessionID = result.SessionID;
+                            sessionStorage.setItem("SimpleSession", strSessionID);
+                            populateProjects();
+                            populateTasks();
+                            $("#divLogin").slideToggle(function () {
+                                $("#divMain").slideToggle();
+                                $("#divHeader").toggle();
+                                $("#h1Logo").removeClass("text-center");
+                            });
+                        } else if (result.Message) {
+                            Swal.fire({
+                                title: "Oops!",
+                                text: "Invalid Email or Password.",
+                                icon: "error",
+                            });
+                        }
+                    },
+                });
+            } else {
+                Swal.fire({
+                    title: "Oops!",
+                    text: "Email and Password cannot be blank.",
+                    icon: "error",
+                });
+            }
+        });
+        // Toggle Login/Register
+        $(".btnToggle").on("click", function () {
+            let strCard = $(this).attr("data-card");
+            if (strCard == "Login") {
+                $("#divLogin").slideToggle(function () {
+                    $("#divRegister").slideToggle();
+                });
+                $("#txtLoginEmail").val('');
+                $("#txtLoginPassword").val('');
+            } else {
+                $("#divRegister").slideToggle(function () {
+                    $("#divLogin").slideToggle();
+                });
+                $("#txtRegisterEmail").val('');
+                $("#txtRegisterPassword").val('');
+                $("#txtRegisterConfirmPassword").val('');
+            }
+        });
+        // Logout
+        $("#btnLogout").on("click", function () {
+            $.ajax({
+                url: "http://localhost:8000/sessions",
+                type: "DELETE",
+                contentType: "application/json",
+                data: JSON.stringify({ SessionID: strSessionID }),
+                success: function (result) {
+                    sessionStorage.removeItem("SimpleSession");
+                    $("#divMain").slideToggle(function () {
+                        $("#divLogin").slideToggle();
+                        $("#divHeader").toggle();
+                        $("#h1Logo").addClass("text-center");
+                    });
+                    $("#divSavedProjects").empty();
+                    $("#divTasks").empty();
+                    $("#divTasks").prepend('<p id="parNoTasks" class="fs-5 text-center mt-4">No tasks found</p>');
+                    $("#cboProjects").empty();
+                    arrTasks = [];
+                    strSessionID = "";
+                    strTaskID = "";
+                    objFilters = { Status: "All", ProjectID: "All" };
+                    $(".btnFilter").removeClass("selected");
+                    $("#btnAll").addClass("selected");
+                },
+            });
+        });
+        // All Filter
+        $("#btnAll").on("click", function () {
+            updateSession(strSessionID);
+            $(".btnFilter").removeClass("selected");
+            $(this).addClass("selected");
+            objFilters.Status = "All";
+            applyFilters();
+        })
+        // To-Do Filter
+        $("#btnToDo").on("click", function () {
+            updateSession(strSessionID);
+            $(".btnFilter").removeClass("selected");
+            $(this).addClass("selected");
+            objFilters.Status = "To-Do";
+            applyFilters();
+        })
+        // In Progress Filter
+        $("#btnInProgress").on("click", function () {
+            updateSession(strSessionID);
+            $(".btnFilter").removeClass("selected");
+            $(this).addClass("selected");
+            objFilters.Status = "In Progress";
+            applyFilters();
+        })
+        // Complete Filter
+        $("#btnComplete").on("click", function () {
+            updateSession(strSessionID);
+            $(".btnFilter").removeClass("selected");
+            $(this).addClass("selected");
+            objFilters.Status = "Complete";
+            applyFilters();
+        })
+        // Add Project
+        $(".btnSaveProject").on("click", function () {
+            updateSession(strSessionID);
+            $("#btnCross").toggle();
+            $("#btnPlus").toggle();
+            $("#btnSubmitProject").toggle();
+            $("#txtProjects").toggle();
+            $("#txtProjects").val('');
+        })
+        // Cancel Add Project
+        $(".btnCancelProject").on("click", function () {
+            updateSession(strSessionID);
+            $("#btnPlus").show();
+            $("#btnCross").hide();
+            $("#btnSubmitProject").hide();
+            $("#txtProjects").hide();
+        })
+        $("#divSavedProjects").on("click", ".btnProject", function () {
+            updateSession(strSessionID);
+            $("#btnPlus").show();
+            $("#btnCross").hide();
+            $("#btnSubmitProject").hide();
+            $("#txtProjects").hide();
+
+            if ($(this).hasClass("selected")) {
+                $("#btnDeleteProject").prop("disabled", true);
+                $(".btnProject").removeClass("selected");
+                objFilters.ProjectID = "All";
+                applyFilters();
+            } else {
+                $("#btnDeleteProject").prop("disabled", false);
+                $(".btnProject").removeClass("selected");
+                $(this).addClass("selected");
+                objFilters.ProjectID = $(this).attr("id");
+                applyFilters();
+            }
+        })
+        $("#divTasks").on("click", ".task", function () {
+            updateSession(strSessionID);
+            $("#btnPlus").show();
+            $("#btnCross").hide();
+            $("#btnSubmitProject").hide();
+            $("#txtProjects").hide();
+        })
+        // Save Project
+        $("#btnSubmitProject").on("click", function () {
+            updateSession(strSessionID);
+            let strProject = $("#txtProjects").val();
+            if (strProject) {
+                $.ajax({
+                    url: "http://localhost:8000/projects",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify({ SessionID: strSessionID, ProjectName: strProject }),
+                    success: function (result) {
+                        $("#divSavedProjects").prepend('<button id="' + result.ProjectID + '" class="btnCancelProject rounded-3 ps-2 py-1 mb-2 text-start transition btnProject" aria-label="' + strProject + '"><i class="fa-regular fa-folder fs-6"></i>' + strProject + '</button>');
+                        $("#cboProjects").prepend('<option value="' + result.ProjectID + '">' + strProject + '</option>');
+                        $("#btnPlus").show();
+                        $("#btnCross").hide();
+                        $("#btnSubmitProject").hide();
+                        $("#txtProjects").hide();
+                    },
+                });
+            } else {
+                $("#btnPlus").show();
+                $("#btnCross").hide();
+                $("#btnSubmitProject").hide();
+                $("#txtProjects").hide();
+            }
+        })
+        // Delete Project
+        $("#btnDeleteProject").on("click", function () {
+            updateSession(strSessionID);
+            let strProjectID = objFilters.ProjectID;
+            if (strProjectID) {
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "This will delete all tasks associated with this project.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes",
+                    cancelButtonText: "No",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "http://localhost:8000/projects",
+                            type: "DELETE",
+                            contentType: "application/json",
+                            data: JSON.stringify({ SessionID: strSessionID, ProjectID: strProjectID }),
+                            success: function (result) {
+                                $("#" + strProjectID).remove();
+                                $("#btnDeleteProject").prop("disabled", true);
+                                objFilters.ProjectID = "All";
+                                $('#cboProjects option[value="' + strProjectID + '"]').remove();
+
+                                arrTasks = arrTasks.filter(function (task) {
+                                    if (task.ProjectID == strProjectID) {
+                                        $("#" + task.TaskID).remove();
+                                        strTaskID = task.TaskID;
+                                        $.ajax({
+                                            url: "http://localhost:8000/tasks",
+                                            type: "DELETE",
+                                            contentType: "application/json",
+                                            data: JSON.stringify({ SessionID: strSessionID, TaskID: strTaskID }),
+                                            success: function (result) {
+                                                arrTasks = arrTasks.filter(function (task) {
+                                                    return task.TaskID != strTaskID;
+                                                })
+                                                $("#" + strTaskID).remove();
+                                                $("#formTask").toggle(function () {
+                                                    $("#divTaskDisplay").toggle();
+                                                });
+                                            },
+                                        });
+                                        strTaskID = "";
+                                    }
+                                    return task.ProjectID != strProjectID;
+                                })
+                                applyFilters();
+                            },
+                        });
+                    }
+                });
+            }
+        })
+        // Toggle Dark/Light Mode
+        $("#btnToggleMode").on("click", function () {
+            updateSession(strSessionID);
+            const strCurrentTheme = $('html').attr('data-theme');
+            if (strCurrentTheme === 'dark') {
+                $('html').attr('data-theme', 'light');
+                $('#iToggle').removeClass('fa-sun').addClass('fa-moon');
+            } else {
+                $('html').attr('data-theme', 'dark');
+                $('#iToggle').removeClass('fa-moon').addClass('fa-sun');
+            }
+        })
+        // View/Edit Task
+        $("#divTasks").on("click", ".task", function () {
+            updateSession(strSessionID);
+            $("#btnLogout").prop("disabled", true);
+            $("#btnDelete").prop("disabled", false);
+
+            let strTaskName = "";
+            let strStatus = "";
+            let strLocation = "";
+            let strInstructions = "";
+            let strDueDate = "";
+            let strProjectID = "";
+
+            strTaskID = $(this).attr("id");
+
+            arrTasks.forEach(function (task) {
+                if (task.TaskID == strTaskID) {
+                    strTaskName = task.TaskName;
+                    strStatus = task.Status;
+                    strLocation = task.Location;
+                    strInstructions = task.Instructions;
+                    strDueDate = task.DueDate;
+                    strProjectID = task.ProjectID;
+                }
+            })
+            $("#txtTaskLarge").val(strTaskName);
+            $("#txtTaskSmall").val(strTaskName);
+            $("#cboStatus").val(strStatus);
+
+            let strStatusIcon = "";
+            if (strStatus == "To-Do") {
+                strStatusIcon = "clipboard-list";
+            } else if (strStatus == "In Progress") {
+                strStatusIcon = "gears";
+            } else {
+                strStatusIcon = "square-check";
+            }
+            $("#iStatus").removeClass("fa-clipboard-list fa-gears fa-square-check").addClass("fa-" + strStatusIcon);
+
+            $("#txtLocation").val(strLocation);
+            $("#txtInstructions").val(strInstructions);
+            $("#txtDueDateLarge").val(strDueDate);
+            $("#txtDueDateSmall").val(strDueDate);
+            $("#cboProjects").val(strProjectID);
+
+            $("#divTaskDisplay").toggle(function () {
+                $("#formTask").toggle();
+            });
+        })
+        // Add Task
+        $("#btnAdd").on("click", function () {
+            updateSession(strSessionID);
+            $("#btnLogout").prop("disabled", true);
+            $("#btnDelete").prop("disabled", true);
+            $("#txtTaskLarge").val('');
+            $("#txtTaskSmall").val('');
+            $("#cboStatus").val('To-Do');
+            $("#iStatus").removeClass("fa-clipboard-list fa-gears fa-square-check").addClass("fa-clipboard-list");
+            $("#txtLocation").val('');
+            $("#txtInstructions").val('');
+            $("#txtDueDateLarge").val('');
+            $("#txtDueDateSmall").val('');
+            $("#cboProjects").val('');
+
+            $("#divTaskDisplay").toggle(function () {
+                $("#formTask").toggle();
+            });
+        })
+        // Status Select Icon Change
+        $("#cboStatus").on("change", function () {
+            updateSession(strSessionID);
+            let strStatus = $(this).val();
+            let strStatusIcon = "";
+            if (strStatus == "To-Do") {
+                strStatusIcon = "clipboard-list";
+            } else if (strStatus == "In Progress") {
+                strStatusIcon = "gears";
+            } else {
+                strStatusIcon = "square-check";
+            }
+            $("#iStatus").removeClass("fa-clipboard-list fa-gears fa-square-check").addClass("fa-" + strStatusIcon);
+        })
+        // Save Task
+        $("#btnSave").on("click", function () {
+            updateSession(strSessionID);
+            $("#btnLogout").prop("disabled", false);
+            if($("#txtTaskSmall").val()){
+                $("#txtTaskLarge").val($("#txtTaskSmall").val());
+            }
+            let strTaskName = $("#txtTaskLarge").val();
+            let strStatus = $("#cboStatus").val();
+            let strProjectID = "";
+            let strLocation = "";
+            let strInstructions = "";
+            let strDueDate = "";
+
+            if ($("#txtTaskLarge").val()) {
+                let dataToSend = {
+                    SessionID: strSessionID,
+                    TaskName: strTaskName,
+                    Status: strStatus,
+                }
+
+                if ($("#cboProjects").val()) {
+                    dataToSend.ProjectID = $("#cboProjects").val();
+                    strProjectID = $("#cboProjects").val();
+                }
+                if ($("#txtLocation").val()) {
+                    dataToSend.Location = $("#txtLocation").val();
+                    strLocation = $("#txtLocation").val();
+                }
+                if ($("#txtInstructions").val()) {
+                    dataToSend.Instructions = $("#txtInstructions").val();
+                    strInstructions = $("#txtInstructions").val();
+                }
+                if ($("#txtDueDateLarge").val()) {
+                    dataToSend.DueDate = $("#txtDueDateLarge").val();
+                    strDueDate = $("#txtDueDateLarge").val();
+                }
+                if ($("#txtDueDateSmall").val()) {
+                    dataToSend.DueDate = $("#txtDueDateSmall").val();
+                    strDueDate = $("#txtDueDateSmall").val();
+                }
+
+                if (strTaskID) {
+                    dataToSend.TaskID = strTaskID;
+                    $.ajax({
+                        url: "http://localhost:8000/tasks",
+                        type: "PUT",
+                        contentType: "application/json",
+                        data: JSON.stringify(dataToSend),
+                        success: function (result) {
+                            let strStatusIcon = "";
+                            arrTasks.forEach(function (task) {
+                                if (task.TaskID == strTaskID) {
+                                    task.TaskName = strTaskName;
+                                    task.DueDate = strDueDate;
+                                    task.Location = strLocation;
+                                    task.Instructions = strInstructions;
+                                    task.Status = strStatus;
+                                    task.ProjectID = strProjectID;
+                                }
+                            })
+                            if (strStatus == "To-Do") {
+                                strStatusIcon = "clipboard-list";
+                            } else if (strStatus == "In Progress") {
+                                strStatusIcon = "gears";
+                            } else {
+                                strStatusIcon = "square-check";
+                            }
+                            $("#" + strTaskID).html('<i class="fa-solid fa-' + strStatusIcon + ' fs-6"></i>' + strTaskName);
+                            $("#formTask").toggle(function () {
+                                $("#divTaskDisplay").toggle();
+                            });
+                        }
+                    });
+                } else {
+                    $.ajax({
+                        url: "http://localhost:8000/tasks",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify(dataToSend),
+                        success: function (result) {
+                            let strStatusIcon = "";
+                            if (arrTasks.length == 0) {
+                                $("#parNoTasks").hide();
+                            }
+                            let objTask = new Task(strTaskName, strDueDate, strLocation, strInstructions, strStatus, result.TaskID, strProjectID);
+                            arrTasks.push(objTask);
+                            if (strStatus == "To-Do") {
+                                strStatusIcon = "clipboard-list";
+                            } else if (strStatus == "In Progress") {
+                                strStatusIcon = "gears";
+                            } else {
+                                strStatusIcon = "square-check";
+                            }
+                            $("#divTasks").prepend('<button id="' + result.TaskID + '" class="task fw-light ps-2 pe-3 py-2 mb-2 me-2 transition text-start" aria-label="' + strTaskName + '"><i class="fa-solid fa-' + strStatusIcon + ' fs-6"></i>' + strTaskName + '</button>');
+                            $("#formTask").toggle(function () {
+                                $("#divTaskDisplay").toggle();
+                            });
+                        }
+                    });
+                }
+            } else {
+                Swal.fire({
+                    title: "Oops!",
+                    text: "Task Name cannot be blank.",
+                    icon: "error",
+                });
+            }
+        })
+        // Delete Task
+        $("#btnDelete").on("click", function () {
+            updateSession(strSessionID);
+            Swal.fire({
+                title: "Are you sure?",
+                text: "This action cannot be undone.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes",
+                cancelButtonText: "No",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "http://localhost:8000/tasks",
+                        type: "DELETE",
+                        contentType: "application/json",
+                        data: JSON.stringify({ SessionID: strSessionID, TaskID: strTaskID }),
+                        success: function (result) {
+                            arrTasks = arrTasks.filter(function (task) {
+                                return task.TaskID != strTaskID;
+                            })
+                            if(arrTasks.length == 0){
+                                $("#parNoTasks").show();
+                            }
+                            $("#" + strTaskID).remove();
+                            $("#btnLogout").prop("disabled", false);
+                            $("#formTask").toggle(function () {
+                                $("#divTaskDisplay").toggle();
+                            });
+                        },
+                    });
+                }
+            });
+        })
+        // Back Button
+        $("#btnBack").on("click", function () {
+            updateSession(strSessionID);
+            strTaskID = "";
+            $("#btnLogout").prop("disabled", false);
+            $("#formTask").toggle(function () {
+                $("#divTaskDisplay").toggle();
+            });
+        })
+    </script>
+</body>
+
+</html>

@@ -6,9 +6,16 @@ const sqlite3 = require('sqlite3').verbose();
 const dbSource = "todo.db";
 const db = new sqlite3.Database(dbSource);
 
+db.exec('PRAGMA foreign_keys = ON;', function(err){
+    if(err){
+        console.log(err);
+    }
+});
+
 const HTTP_PORT = 8000;
 console.log("Listening on port " + HTTP_PORT);
 var app = express();
+app.use(express.json());
 app.use(cors());
 
 ////////////// USERS //////////////
@@ -18,22 +25,32 @@ Required Parameters: Email, Password
 Expected Returns: JSON Object with a key of Message
 */
 app.post("/users",(req,res,next) => {
-    let strEmail = req.query.Email;
-    let strPassword = req.query.Password;
+    let strEmail = req.body.Email;
+    let strPassword = req.body.Password;
     let strUserID = uuidv4();
 
     if(strEmail && strPassword){
-        bcrypt.hash(strPassword,10).then(hash => {
-            strPassword = hash;
-            let strCommand = 'INSERT INTO tblUsers VALUES(?,?,?)';
-            let arrParameters = [strEmail,strPassword,strUserID];
-            db.run(strCommand,arrParameters,function(err){
-                if(err){
-                    res.status(400).json({error:err.message});
-                } else{
-                    res.status(201).json({Message:"success"});
-                }
-            })
+        let strCommand = 'SELECT COUNT(*) FROM tblUsers WHERE Email = ?';
+        let arrParameters = [strEmail];
+        db.all(strCommand,arrParameters,function(err,count){
+            if(err){
+                res.status(400).json({error:err.message});
+            } else if(count[0]['COUNT(*)'] > 0){
+                res.status(200).json({Message:"error: email already exists"});
+            } else{
+                bcrypt.hash(strPassword,10).then(hash => {
+                    strPassword = hash;
+                    let strCommand = 'INSERT INTO tblUsers VALUES(?,?,?)';
+                    let arrParameters = [strEmail,strPassword,strUserID];
+                    db.run(strCommand,arrParameters,function(err){
+                        if(err){
+                            res.status(400).json({error:err.message});
+                        } else{
+                            res.status(201).json({Message:"success"});
+                        }
+                    })
+                })
+            }
         })
     } else{
         res.status(400).json({error:"not all parameters provided"});
@@ -45,8 +62,8 @@ Required Parameters: Email,Password
 Expected Returns: JSON Object with a key of Message
 */
 app.put("/users",(req,res,next) => {
-    let strEmail = req.query.Email;
-    let strPassword = req.query.Password;
+    let strEmail = req.body.Email;
+    let strPassword = req.body.Password;
 
     if(strEmail && strPassword){
         bcrypt.hash(strPassword,10).then(hash => {
@@ -71,7 +88,7 @@ Required Parameters: Email
 Expected Returns: JSON Object with a key of Message
 */
 app.delete("/users",(req,res,next) => {
-    let strEmail = req.query.Email;
+    let strEmail = req.body.Email;
 
     if(strEmail){
         let strCommand = "DELETE FROM tblUsers WHERE Email = ?";
@@ -116,8 +133,8 @@ Required Parameters: Email, Password
 Expected Returns: JSON Object with a key of Message or SessionID
 */
 app.post("/sessions",(req,res,next) => {
-    let strEmail = req.query.Email;
-    let strPassword = req.query.Password;
+    let strEmail = req.body.Email;
+    let strPassword = req.body.Password;
     let strSessionID = uuidv4();
     let strTimeStamp = new Date().toISOString();
 
@@ -127,7 +144,7 @@ app.post("/sessions",(req,res,next) => {
         db.all(strCommand,arrParameters,function(err,row){
             if(err){
                 res.status(400).json({error:err.message});
-            } else{
+            } else if(row.length > 0){
                 let strUserID = row[0].UserID;
                 bcrypt.compare(strPassword,row[0].Password).then(result => {
                     if(result){
@@ -144,6 +161,8 @@ app.post("/sessions",(req,res,next) => {
                         res.status(200).json({Message:"error: invalid password"});
                     }
                 })
+            } else{
+                res.status(200).json({Message:"error: invalid email"});
             }
         })     
     } else{
@@ -156,7 +175,7 @@ Required Parameters: SessionID
 Expected Returns: JSON Object with a key of message
 */
 app.put("/sessions",(req,res,next) => {
-    let strSessionID = req.query.SessionID;
+    let strSessionID = req.body.SessionID;
     let strTimeStamp = new Date().toISOString();
 
     if(strSessionID){
@@ -179,7 +198,7 @@ Required Parameters: SessionID
 Expected Returns: JSON Object with a key of Message
 */
 app.delete("/sessions",(req,res,next) => {
-    let strSessionID = req.query.SessionID;
+    let strSessionID = req.body.SessionID;
 
     if(strSessionID){
         let strCommand = "DELETE FROM tblSessions WHERE SessionID = ?";
@@ -224,8 +243,8 @@ Required Parameters: ProjectName,SessionID
 Expected Returns: JSON Object with a key of Message and ProjectID
 */
 app.post("/projects",(req,res,next) => {
-    let strProjectName = req.query.ProjectName;
-    let strSessionID = req.query.SessionID;
+    let strProjectName = req.body.ProjectName;
+    let strSessionID = req.body.SessionID;
     let strProjectID = uuidv4();
 
     if(strProjectName && strSessionID){
@@ -242,7 +261,7 @@ app.post("/projects",(req,res,next) => {
                     if(err){
                         res.status(400).json({error:err.message});
                     } else{
-                        res.status(201).json({Message:"success",ProjectID:strProjectID});
+                        res.status(201).json({ProjectID:strProjectID});
                     }
                 })
             } else{
@@ -260,9 +279,9 @@ Required Parameters: ProjectID,ProjectName,SessionID
 Expected Returns: JSON Object with a key of Message
 */
 app.put("/projects",(req,res,next) => {
-    let strProjectID = req.query.ProjectID;
-    let strProjectName = req.query.ProjectName;
-    let strSessionID = req.query.SessionID;
+    let strProjectID = req.body.ProjectID;
+    let strProjectName = req.body.ProjectName;
+    let strSessionID = req.body.SessionID;
 
     if(strProjectID && strProjectName && strSessionID){
         let strCommand = "SELECT UserID FROM tblSessions WHERE SessionID = ?";
@@ -295,8 +314,8 @@ Required Parameters: ProjectID,SessionID
 Expected Returns: JSON Object with a key of Message
 */
 app.delete("/projects",(req,res,next) => {
-    let strProjectID = req.query.ProjectID;
-    let strSessionID = req.query.SessionID;
+    let strProjectID = req.body.ProjectID;
+    let strSessionID = req.body.SessionID;
 
     if(strProjectID && strSessionID){
         let strCommand = "SELECT UserID FROM tblSessions WHERE SessionID = ?";
@@ -341,7 +360,6 @@ app.get("/projects",(req,res,next) => {
                 res.status(400).json({error:err.message});
             } else if(row.length > 0){
                 let strUserID = row[0].UserID;
-                console.log(strUserID);
                 strCommand = "SELECT ProjectID,ProjectName FROM tblProjects WHERE UserID = ?";
                 arrParameters = [strUserID];
                 db.all(strCommand,arrParameters,function(err,rows){
@@ -364,7 +382,7 @@ app.get("/projects",(req,res,next) => {
 Method: POST
 Required Parameters: TaskName,Status,SessionID
 Optional Parameters: DueDate,Location,Instructions,ProjectID
-Expected Returns: JSON Object with a key of Message and TaskID
+Expected Returns: JSON Object with a key of TaskID
 */
 app.post("/tasks",(req,res,next) => {
     let strDueDate = null;
@@ -372,22 +390,22 @@ app.post("/tasks",(req,res,next) => {
     let strInstructions = null;
     let strProjectID = null;
 
-    let strTaskName = req.query.TaskName;
-    if(req.query.DueDate){
-        strDueDate = req.query.DueDate;
+    let strTaskName = req.body.TaskName;
+    if(req.body.DueDate){
+        strDueDate = req.body.DueDate;
     }
-    if(req.query.Location){
-        strLocation = req.query.Location;
+    if(req.body.Location){
+        strLocation = req.body.Location;
     }
-    if(req.query.Instructions){
-        strInstructions = req.query.Instructions;
+    if(req.body.Instructions){
+        strInstructions = req.body.Instructions;
     }
-    if(req.query.ProjectID){
-        strProjectID = req.query.ProjectID;
+    if(req.body.ProjectID){
+        strProjectID = req.body.ProjectID;
     }
-    let strStatus = req.query.Status;
+    let strStatus = req.body.Status;
     let strTaskID = uuidv4();
-    let strSessionID = req.query.SessionID;
+    let strSessionID = req.body.SessionID;
 
     if(strTaskName && strStatus && strSessionID){
         let strCommand = "SELECT UserID FROM tblSessions WHERE SessionID = ?";
@@ -403,7 +421,7 @@ app.post("/tasks",(req,res,next) => {
                     if(err){
                         res.status(400).json({error:err.message});
                     } else{
-                        res.status(201).json({Message:"success", TaskID:strTaskID});
+                        res.status(201).json({TaskID:strTaskID});
                     }
                 })
             } else{
@@ -422,8 +440,8 @@ Optional Parameters: TaskName,DueDate,Location,Instructions,Status,ProjectID
 Expected Returns: JSON Object with a key of Message
 */
 app.put("/tasks",(req,res,next) => {
-    let strTaskID = req.query.TaskID;
-    let strSessionID = req.query.SessionID;
+    let strTaskID = req.body.TaskID;
+    let strSessionID = req.body.SessionID;
 
     if(strTaskID && strSessionID){
         let strCommand = 'SELECT COUNT(*) FROM tblSessions WHERE SessionID = ?';
@@ -445,23 +463,23 @@ app.put("/tasks",(req,res,next) => {
                         let strStatus = rows[0].Status;
                         let strProjectID = rows[0].ProjectID;
 
-                        if(req.query.TaskName){
-                            strTaskName = req.query.TaskName;
+                        if(req.body.TaskName){
+                            strTaskName = req.body.TaskName;
                         }
-                        if(req.query.DueDate){
-                            strDueDate = req.query.DueDate;
+                        if(req.body.DueDate){
+                            strDueDate = req.body.DueDate;
                         }
-                        if(req.query.Location){
-                            strLocation = req.query.Location;
+                        if(req.body.Location){
+                            strLocation = req.body.Location;
                         }
-                        if(req.query.Instructions){
-                            strInstructions = req.query.Instructions;
+                        if(req.body.Instructions){
+                            strInstructions = req.body.Instructions;
                         }
-                        if(req.query.Status){
-                            strStatus = req.query.Status;
+                        if(req.body.Status){
+                            strStatus = req.body.Status;
                         }
-                        if(req.query.ProjectID){
-                            strProjectID = req.query.ProjectID;
+                        if(req.body.ProjectID){
+                            strProjectID = req.body.ProjectID;
                         }
                         strCommand = 'UPDATE tblTasks SET TaskName = ?, DueDate = ?, Location = ?, Instructions = ?, Status = ?,ProjectID = ? WHERE TaskID = ?';
                         arrParameters = [strTaskName,strDueDate,strLocation,strInstructions,strStatus,strProjectID,strTaskID];
@@ -490,8 +508,8 @@ Required Parameters: SessionID,TaskID
 Expected Returns: JSON Object with a key of Message
 */
 app.delete("/tasks",(req,res,next) => {
-    let strSessionID = req.query.SessionID;
-    let strTaskID = req.query.TaskID;
+    let strSessionID = req.body.SessionID;
+    let strTaskID = req.body.TaskID;
 
     if(strTaskID && strSessionID){
         let strCommand = 'SELECT UserID FROM tblSessions WHERE SessionID = ?';

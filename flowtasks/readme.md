@@ -1,6 +1,9 @@
-Endpoints:
+# flowtasks
+
+## Endpoints
 
 **/users**
+
 Method: POST
 Required Parameters: Email, Password
 Expected Returns: JSON Object with a key of Message
@@ -18,6 +21,7 @@ Required Parameters: Email
 Expected Returns: JSON Object with a key of User containing Password(Hashed) and UserID
 
 **/sessions**
+
 Method: POST
 Required Parameters: Email, Password
 Expected Returns: JSON Object with a key of Message or SessionID
@@ -35,9 +39,10 @@ Required Parameters: SessionID
 Expected Returns: JSON Object with a key of Session containing UserID and TimeStamp
 
 **/projects**
+
 Method: POST
 Required Parameters: ProjectName,SessionID
-Expected Returns: JSON Object with a key of Message and ProjectID
+Expected Returns: JSON Object with a key of Message or ProjectID
 
 Method: PUT
 Required Parameters: ProjectID,ProjectName,SessionID
@@ -54,10 +59,11 @@ Expected Returns: JSON Object with a key of Message or Projects containing:
                     - ProjectID
 
 **/tasks**
+
 Method: POST
 Required Parameters: TaskName,Status,SessionID
 Optional Parameters: DueDate,Location,Instructions,ProjectID
-Expected Returns: JSON Object with a key of Message
+Expected Returns: JSON Object with a key of Message or TaskID
 
 Method: PUT
 Required Parameters: TaskID,SessionID

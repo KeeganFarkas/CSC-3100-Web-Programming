@@ -115,7 +115,7 @@ textarea{
     color: var(--dk-subtext);
 }
 
-.divHeader{
+#divHeader{
     max-width: 510px;
 }
 
@@ -138,7 +138,7 @@ textarea{
     max-width: 300px;
 }
 
-.filter-card, .logo{
+.filter-card, #h1Logo{
     max-width: 270px;
 }
 
@@ -146,11 +146,12 @@ textarea{
     max-width: 510px;
 }
 
-.btnFilter{
+.btnFilter, .btnProject, #txtProjects{
     color: var(--dk-subtext);
     font-size: 14px;
     background-color: transparent;
     width: 95%;
+    border: none;
 }
 
 .fa-clipboard-list{
@@ -165,8 +166,10 @@ textarea{
     margin-right: 9px;
 }
 
-.fa-location-dot, .fa-gears{
+.fa-gears{
     color: var(--dk-subtext);
+    margin-left: -2px;
+    margin-right: 7px;
 }
 
 .btnIcon{
@@ -174,13 +177,13 @@ textarea{
     color: var(--dk-subtext);
 }
 
-.projects{
+#divProjects{
     height: 150px;
     overflow-y: auto;
     overflow-x: hidden;
 }
 
-.tasks{
+#divTasks{
     height: 320px;
     overflow-y: auto;
     overflow-x: hidden;
@@ -217,7 +220,89 @@ textarea{
     width: 65%;
 }
 
-.btnBack{
+#btnBack{
     background-color: transparent;
     color: var(--dk-subtext);
+}
+
+#spnExit{
+    color: var(--dk-subtext) !important;
+    background: transparent !important;
+    -webkit-text-fill-color: var(--dk-subtext) !important;
+}
+
+@media (max-width: 860px){
+    #divMainContainer{
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .filter-card{
+        max-width: 510px;
+    }
+
+    .task-card{
+        margin-left: 0px !important;
+        margin-top: 20px;
+        margin-bottom: 48px;
+    }
+}
+
+@media (max-width: 580px){
+
+    #hrSmall{
+        display: block !important;
+        width: 100%;
+    }
+
+    #hrLarge{
+        display: none !important;
+    }
+
+    #divFormTaskHeader{
+        flex-direction: column;
+        margin-bottom: 20px !important;
+    }
+
+    #divFormTaskSelectProject{
+        margin-bottom: 20px;
+        max-width: 150px;
+    }
+
+    #txtLocation{
+        width: 90%;
+    }
+
+    .txtTask{
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    #txtTaskSmall{
+        display: block !important;
+        margin-bottom: 0px !important;
+    }
+
+    #txtTaskLarge{
+        display: none !important;
+    }
+
+    #divFormStatus{
+        display: flex;
+        margin-bottom: 20px;
+    }
+
+    #txtDueDateSmall{
+        display: block !important;
+        margin-bottom: 20px !important;
+        padding: 3px;
+    }
+
+    #txtDueDateLarge{
+        display: none !important;
+    }
+
+    #spnExit{
+        display: none !important;
+    }
 }
