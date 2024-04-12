@@ -1,0 +1,1 @@
+npm install express cors uuid bcrypt sqlite3 body-parser
