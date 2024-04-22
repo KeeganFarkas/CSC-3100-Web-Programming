@@ -1,40 +1,49 @@
 import { useState } from 'react'
+import { useEffect } from 'react'
+import SweetAlert2 from 'react-sweetalert2'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
-import '../node_modules/sweetalert2/dist/sweetalert2.min.css'
-import SweetAlert2 from 'react-sweetalert2'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [strTaskName, setTaskName] = useState('')
-  const [swalProps, setSwalProps] = useState({})
+  const [id, setId] = useState('')
+  const [data, setData] = useState(null)
+
+  const handleClick = async () => {
+    try {
+      const data = await (await fetch(`https://swollenhippo.com/getProfileDetailsByAPIKey.php?APIKey=Mickey2022!&Codename=${id}`)).json()
+      setData(data)
+    } catch (err) {
+      console.log(err.message)
+    }
+  }
+
+  function checkResponse(data) {
+    if (data) {
+      console.log(data)
+      return <div className='App'>{data.FirstName} {data.LastName}</div>;
+    } else {
+      return null;
+    }
+
+  }
 
   return (
-    <>
-      {/* // create a form that takes inputs for task name, task location, due date, and a button to add the task */}
-      <div className="container">
-        <h1>Todo App</h1>
-        <form>
-          <div className="mb-3">
-            <label for="taskName" className="form-label">Task Name</label>
-            <input type="text" className="form-control" id="taskName" value={strTaskName} onChange={(e) => setTaskName(e.target.value)}/>
+    <div className='bg-dark col-12'>
+      <div className='vh-100 d-flex align-items-center justify-content-center col-12'>
+        <div className='card col-8'>
+          <div className='card-body'>
+            <input className='form-control text-center' required="required" placeholder='Codename' value={id} onChange={e => setId(e.target.value)} />
+            <button className='btn btn-primary col-12 mt-3' type="submit" onClick={handleClick} >Search</button>
+
+            <h3 className="mt-4">{checkResponse(data)}</h3>
           </div>
-          <div className="mb-3">
-            <label for="taskLocation" className="form-label">Task Location</label>
-            <input type="text" className="form-control" id="taskLocation" />
-          </div>
-          <div className="mb-3">
-            <label for="dueDate" className="form-label">Due Date</label>
-            <input type="date" className="form-control" id="dueDate" />
-          </div>
-          <button type="button" className="btn btn-primary" onClick={() => {setSwalProps({show:true, title:'Success', icon:'success', text:`New Task Added: ${strTaskName}`})}}>Add Task</button>
-          <SweetAlert2 {...swalProps}/>
-        </form>
+        </div>
       </div>
-    </>
+    </div>
   )
+
 }
 
-export default App
+export default App;
